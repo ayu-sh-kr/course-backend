@@ -44,6 +44,16 @@ public class CourseDeliveryService {
         return courseDeliveryRepository.save(delivery);
     }
 
+    public List<DeliveryFetchedRecord> findAllInstances() {
+        List<DeliveryFetchedRecord> records = courseDeliveryRepository.getAllFetchedRecord();
+
+        if(records.isEmpty()) {
+            throw new CourseException("No Instance Found", HttpStatus.NOT_FOUND);
+        }
+
+        return records;
+    }
+
     public List<DeliveryFetchedRecord> findCoursesByYearAndSemester(String year, String semester) {
         List<DeliveryFetchedRecord> fetchRecords =  courseDeliveryRepository.getCourseDeliveriesByYearAndSemester(year, semester);
 
