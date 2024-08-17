@@ -1,0 +1,40 @@
+name: DOCKER_PUSH
+
+on:
+  push:
+    branches: [ '*' ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-maven
+
+      - name: Build Docker image
+        run: mvn clean package -DskipTests spring-boot:build-image
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Push Docker image
+        run: |
+          docker tag ${{secrets.REPO_NAME}} ${{ secrets.DOCKER_USERNAME }}/${{secrets.REPO_NAME}}
+          docker push ${{ secrets.DOCKER_USERNAME }}/${{secrets.REPO_NAME}}
