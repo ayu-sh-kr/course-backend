@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/instances")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.OPTIONS})
 public class CourseDeliveryController {
 
 
@@ -24,7 +25,8 @@ public class CourseDeliveryController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<APIResponse<?>> create(@Valid DeliveryCreateRecord record) {
+    public ResponseEntity<APIResponse<?>> create(@RequestBody @Valid DeliveryCreateRecord record) {
+        System.out.println(record);
         CourseDelivery delivery = courseDeliveryService.save(record);
 
         return new ResponseEntity<>(
@@ -35,6 +37,18 @@ public class CourseDeliveryController {
                         )
                 ),
                 HttpStatus.CREATED
+        );
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<APIResponse<List<DeliveryFetchedRecord>>> findAllInstance() {
+        List<DeliveryFetchedRecord> records = courseDeliveryService.findAllInstances();
+        return new ResponseEntity<>(
+                APIResponse.ofBody(
+                        "Fetched Instances",
+                        records
+                ),
+                HttpStatus.OK
         );
     }
 
@@ -74,8 +88,6 @@ public class CourseDeliveryController {
                 HttpStatus.OK
         );
     }
-
-
 
 
 }
