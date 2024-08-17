@@ -1,11 +1,14 @@
 package dev.archimedes.coursebackend.application.api;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 
 @Builder
+@Getter @Setter
 public class APIResponse<T> {
 
     private String message;
@@ -17,7 +20,7 @@ public class APIResponse<T> {
     public static <T> APIResponse<T> ofMessage(String message) {
         return APIResponse.<T>builder()
                 .message(message)
-                .time(LocalDateTime.now().toEpochSecond(ZoneOffset.of("IST")))
+                .time(LocalDateTime.now().atZone(ZoneId.of("Asia/Kolkata")).toEpochSecond())
                 .build();
     }
 
@@ -25,7 +28,7 @@ public class APIResponse<T> {
         return APIResponse.<T>builder()
                 .message(message)
                 .description(description)
-                .time(LocalDateTime.now().toEpochSecond(ZoneOffset.of("IST")))
+                .time(LocalDateTime.now().atZone(ZoneId.of("Asia/Kolkata")).toEpochSecond())
                 .build();
     }
 
@@ -33,7 +36,7 @@ public class APIResponse<T> {
         return APIResponse.<T>builder()
                 .message(message)
                 .body(body)
-                .time(LocalDateTime.now().toEpochSecond(ZoneOffset.of("IST")))
+                .time(LocalDateTime.now().atZone(ZoneId.of("Asia/Kolkata")).toEpochSecond())
                 .build();
     }
 
@@ -42,7 +45,7 @@ public class APIResponse<T> {
                 .message(message)
                 .description(description)
                 .body(body)
-                .time(LocalDateTime.now().toEpochSecond(ZoneOffset.of("IST")))
+                .time(LocalDateTime.now().atZone(ZoneId.of("Asia/Kolkata")).toEpochSecond())
                 .build();
     }
 }
