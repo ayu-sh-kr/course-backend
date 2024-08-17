@@ -78,7 +78,7 @@ public class CourseDeliveryController {
     }
 
 
-    @DeleteMapping("/{year}/{semester}/{id}")
+    @DeleteMapping("/delete/{year}/{semester}/{id}")
     public ResponseEntity<APIResponse<?>> deleteInstanceByCourseIdAndYearAndSemester(
             @PathVariable("year") String year, @PathVariable("semester") String semester, @PathVariable("id") Integer id
     ) {
