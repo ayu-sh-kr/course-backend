@@ -3,7 +3,8 @@ package dev.archimedes.coursebackend.course.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
+
 
 public record CourseFetchRecord(
 
@@ -12,6 +13,7 @@ public record CourseFetchRecord(
         String title,
         String code,
         String description,
+        @JsonProperty("created_on")
         long createTime
 ) {
 
@@ -20,7 +22,7 @@ public record CourseFetchRecord(
             String description, LocalDateTime createTime
     ) {
         this(
-                id, title, code, description, createTime.toEpochSecond(ZoneOffset.of("ITC"))
+                id, title, code, description, createTime.atZone(ZoneId.of("Asia/Kolkata")).toEpochSecond()
         );
     }
 
