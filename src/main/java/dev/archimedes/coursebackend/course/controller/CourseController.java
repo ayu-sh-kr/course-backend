@@ -5,6 +5,7 @@ import dev.archimedes.coursebackend.course.dto.CourseCreateRecord;
 import dev.archimedes.coursebackend.course.dto.CourseFetchRecord;
 import dev.archimedes.coursebackend.course.entity.Course;
 import dev.archimedes.coursebackend.course.service.CourseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +16,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/courses")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods = {RequestMethod.DELETE, RequestMethod.GET, RequestMethod.PATCH, RequestMethod.POST, RequestMethod.OPTIONS})
 public class CourseController {
 
     private final CourseService courseService;
 
     @PostMapping("/")
-    public ResponseEntity<APIResponse<CourseFetchRecord>> create(CourseCreateRecord record) {
+    public ResponseEntity<APIResponse<CourseFetchRecord>> create(@RequestBody @Valid CourseCreateRecord record) {
         Course course = courseService.save(record);
         return new ResponseEntity<>(
                 APIResponse.ofBody(
