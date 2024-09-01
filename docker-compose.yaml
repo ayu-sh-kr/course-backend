@@ -11,7 +11,7 @@ services:
       DB_PASSWORD: qwerty
       DB_URL: jdbc:mysql://mysqldb:3306/courseDb
     ports:
-      - 8080:8080
+      - "8080:8080"
 
   frontend:
     image: ayushkrjaiswal/course-frontend
@@ -21,7 +21,7 @@ services:
     environment:
       NUXT_PUBLIC_BACKEND_URL: http://localhost:8080/api
     ports:
-      - 3000:3000
+      - "3000:3000"
 
 
   database:
@@ -33,7 +33,7 @@ services:
       MYSQL_ROOT_PASSWORD: qwerty
       MYSQL_DATABASE: courseDb
     ports:
-      - 3310:3306
+      - "3310:3306"
 
 networks:
   course-network:
